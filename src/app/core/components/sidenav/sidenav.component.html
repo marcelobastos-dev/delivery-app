@@ -1,1 +1,10 @@
-<p-sidebar [(visible)]="isOpen"> Content </p-sidebar>
+<p-sidebar [(visible)]="isOpen">
+  <ul class="sidebar-menu">
+    <li *ngFor="let item of menuItems" [routerLink]="item.routerLink" (click)="hideSidenav()">
+      <i class="text-primary material-icons-round mr-2">
+        {{ item.icon }}
+      </i>
+      {{ item.label }}
+    </li>
+  </ul>
+</p-sidebar>

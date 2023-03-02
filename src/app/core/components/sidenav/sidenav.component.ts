@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { SidenavService } from '@core/services/sidenav/sidenav.service'
+import { MenuItem } from 'primeng/api'
 import { Subject, takeUntil } from 'rxjs'
 
 @Component({
@@ -9,6 +10,7 @@ import { Subject, takeUntil } from 'rxjs'
 })
 export class SidenavComponent implements OnInit, OnDestroy {
   isOpen: boolean = false
+  menuItems: MenuItem[] = []
 
   private readonly destroy$ = new Subject<void>()
 
@@ -20,6 +22,32 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.isOpen = isOpen
       },
     })
+
+    this.setMenuItems()
+  }
+
+  setMenuItems(): void {
+    this.menuItems = [
+      {
+        icon: 'home',
+        label: 'Início',
+        routerLink: '/view/dashboard',
+      },
+      {
+        icon: 'lunch_dining',
+        label: 'Produtos',
+        routerLink: '/view/products',
+      },
+      {
+        icon: 'list_alt',
+        label: 'Pedidos',
+        routerLink: '/view/orders',
+      },
+    ]
+  }
+
+  hideSidenav(): void {
+    this.sidenavService.hide()
   }
 
   ngOnDestroy(): void {

@@ -1,0 +1,19 @@
+.sidebar-menu {
+  list-style-type: none;
+  padding-left: 0;
+
+  li {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #0d071c;
+    }
+
+    .pi {
+      margin-right: 0.5rem;
+    }
+  }
+}
