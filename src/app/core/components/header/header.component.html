@@ -1,0 +1,8 @@
+<div class="header shadow-2">
+  <button pButton type="button" icon="pi pi-bars" iconPos="left" (click)="showSidenav()"></button>
+
+  <div>
+    <p-avatar class="cursor-pointer" icon="pi pi-user" size="large" (click)="menu.toggle($event)"></p-avatar>
+    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+  </div>
+</div>

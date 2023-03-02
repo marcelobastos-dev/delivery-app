@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { ISession } from '@core/models/session.interface'
-import { ReplaySubject } from 'rxjs'
+import { BehaviorSubject, ReplaySubject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +8,8 @@ import { ReplaySubject } from 'rxjs'
 export class SessionService {
   private authToken: string = ''
 
-  session$ = new ReplaySubject<ISession>(1)
+  private _session = new BehaviorSubject<ISession>({} as ISession)
+  session$ = this._session.asObservable()
 
   constructor() {
     this.loadSession()
@@ -23,17 +24,29 @@ export class SessionService {
     }
 
     if (session) {
-      this.authToken = session.jwt
-      this.session$.next(session)
+      this.session = session
     }
+  }
+
+  get session(): ISession {
+    return this._session.getValue()
+  }
+
+  set session(session: ISession) {
+    this.authToken = session.jwt
+    this._session.next(session)
   }
 
   getToken(): string {
     return this.authToken
   }
 
-  storeSession(session: ISession): void {
+  store(session: ISession): void {
     localStorage.setItem('session', JSON.stringify(session))
     this.loadSession()
+  }
+
+  clear(): void {
+    localStorage.clear()
   }
 }

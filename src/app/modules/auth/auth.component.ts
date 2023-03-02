@@ -18,7 +18,7 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private auth: AuthService,
+    private authService: AuthService,
     private session: SessionService,
     private router: Router
   ) {}
@@ -51,12 +51,12 @@ export class AuthComponent implements OnInit {
   login(): void {
     const auth: IAuth = this.loginForm.value
 
-    this.auth
+    this.authService
       .login(auth)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res) => {
-          this.session.storeSession(res)
+          this.session.store(res)
           this.router.navigate(['/view/dashboard'])
         },
       })
