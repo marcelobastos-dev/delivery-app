@@ -4,12 +4,12 @@ import { CommonModule } from '@angular/common'
 import { ProductsRoutingModule } from './products-routing.module'
 
 import { ProductsComponent } from './products.component'
-import { ProductsListComponent } from './components/products-list/products-list.component'
+
 import { CardModule } from 'primeng/card'
 import { InputTextModule } from 'primeng/inputtext'
 
 @NgModule({
-  declarations: [ProductsComponent, ProductsListComponent],
+  declarations: [ProductsComponent],
   imports: [CommonModule, ProductsRoutingModule, CardModule, InputTextModule],
 })
 export class ProductsModule {}
