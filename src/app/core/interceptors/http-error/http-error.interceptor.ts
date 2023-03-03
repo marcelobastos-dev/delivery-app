@@ -17,14 +17,16 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           errorMsg = err.error.message
         } else {
           // Server side error
-          errorMsg = err.error.message
+          errorMsg = err.error.error.message
         }
 
-        this.messageService.add({
-          severity: 'error',
-          detail: errorMsg,
-          life: 8000,
-        })
+        if (!request.url.includes('auth/local')) {
+          this.messageService.add({
+            severity: 'error',
+            detail: errorMsg,
+            life: 8000,
+          })
+        }
 
         return throwError(() => errorMsg)
       })

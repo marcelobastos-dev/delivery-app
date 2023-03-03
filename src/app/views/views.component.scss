@@ -3,11 +3,15 @@
   top: 0;
   left: 0;
   right: 0;
+  z-index: 999;
 }
 
 .view-container {
   padding: 1rem;
+  padding-bottom: 8rem;
+  margin: 0 auto;
   margin-top: 4rem;
   overflow-x: hidden;
   overflow-y: auto;
+  max-width: 1120px;
 }

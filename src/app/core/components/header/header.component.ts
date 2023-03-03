@@ -44,14 +44,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
             separator: true,
           },
           {
-            label: 'Minha empresa',
-            icon: 'pi pi-cog',
-            routerLink: '/view/company',
-          },
-          {
-            separator: true,
-          },
-          {
             label: 'Sair',
             icon: 'pi pi-power-off',
             command: () => {

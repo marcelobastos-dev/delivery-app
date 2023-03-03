@@ -4,6 +4,8 @@ import { Router } from '@angular/router'
 import { IAuth } from '@core/models/auth.interface'
 import { AuthService } from '@core/services/auth/auth.service'
 import { SessionService } from '@core/services/session/session.service'
+import { validateFormGroup } from '@core/utils/validate-form-group'
+import { MessageService } from 'primeng/api'
 import { Subject, takeUntil } from 'rxjs'
 
 @Component({
@@ -18,6 +20,7 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private message: MessageService,
     private authService: AuthService,
     private session: SessionService,
     private router: Router
@@ -35,17 +38,9 @@ export class AuthComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.loginForm.invalid) {
-      Object.values(this.loginForm.controls).forEach((control) => {
-        if (control.invalid) {
-          control.markAsDirty()
-          control.updateValueAndValidity({ onlySelf: true })
-        }
-      })
-      return
+    if (validateFormGroup(this.loginForm)) {
+      this.login()
     }
-
-    this.login()
   }
 
   login(): void {
@@ -58,6 +53,9 @@ export class AuthComponent implements OnInit {
         next: (res) => {
           this.session.store(res)
           this.router.navigate(['/view/dashboard'])
+        },
+        error: (err) => {
+          this.message.add({ severity: 'error', detail: 'Credenciais inválidas' })
         },
       })
   }

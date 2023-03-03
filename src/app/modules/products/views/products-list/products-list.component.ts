@@ -4,6 +4,7 @@ import { IProduct } from '@modules/products/models/product.interface'
 import { ProductsService } from '@modules/products/services/products/products.service'
 import { IFind, Meta } from '@shared/models/find.interface'
 import { PRODUCT_CATEGORIES } from '@shared/models/product-categories.const'
+import { ConfirmationService, MessageService } from 'primeng/api'
 import { Subject, takeUntil } from 'rxjs'
 
 @Component({
@@ -26,11 +27,19 @@ export class ProductsListComponent implements OnInit, OnDestroy {
 
   categories = PRODUCT_CATEGORIES
 
+  selectedProductId: number | null = null
+
   isLoadingProducts: boolean = false
+  displayProductForm: boolean = false
 
   private readonly destroy$ = new Subject<void>()
 
-  constructor(private fb: FormBuilder, private productsService: ProductsService) {}
+  constructor(
+    private fb: FormBuilder,
+    private confirmation: ConfirmationService,
+    private message: MessageService,
+    private productsService: ProductsService
+  ) {}
 
   ngOnInit(): void {
     this.buildSearchForm()
@@ -66,8 +75,57 @@ export class ProductsListComponent implements OnInit, OnDestroy {
       })
   }
 
-  clearSearchForm(): void {
-    this.searchForm.reset()
+  confirmDeleteProduct(event: Event, productId: number): void {
+    this.confirmation.confirm({
+      target: event.target || undefined,
+      message: 'Deseja mesmo deletar o item?',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sim',
+      acceptButtonStyleClass: 'p-button-danger',
+      rejectLabel: 'Não',
+      accept: () => {
+        this.deleteProduct(productId)
+      },
+    })
+  }
+
+  deleteProduct(productId: number): void {
+    this.isLoadingProducts = true
+
+    this.productsService
+      .delete(productId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.findProducts()
+          this.message.add({ severity: 'success', detail: 'Produto removido' })
+          this.isLoadingProducts = false
+        },
+        error: () => {
+          this.isLoadingProducts = false
+        },
+      })
+  }
+
+  openProductForm(productId: number | null): void {
+    this.selectedProductId = productId
+    this.displayProductForm = true
+  }
+
+  closeProductForm(): void {
+    this.selectedProductId = null
+    this.displayProductForm = false
+  }
+
+  productSaved(saved: boolean): void {
+    if (!saved) return
+
+    if (this.selectedProductId === null) {
+      this.searchForm.reset()
+    }
+
+    this.closeProductForm()
+    this.findProducts()
   }
 
   ngOnDestroy(): void {
