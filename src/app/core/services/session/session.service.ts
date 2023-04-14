@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core'
+import { AuthApiActions } from '@core/components/auth/state/actions'
+import { getSession } from '@core/components/auth/state/auth.selectors'
 import { ISession } from '@core/models/session.interface'
-import { BehaviorSubject, ReplaySubject } from 'rxjs'
+import { IAppState } from '@core/state/app.state'
+import { Store } from '@ngrx/store'
 
 @Injectable({
   providedIn: 'root',
 })
 export class SessionService {
   private authToken: string = ''
+  private session!: ISession | null
 
-  private _session = new BehaviorSubject<ISession>({} as ISession)
-  session$ = this._session.asObservable()
-
-  constructor() {
-    this.loadSession()
-  }
+  constructor(private store: Store<IAppState>) {}
 
   loadSession(): void {
     let session: ISession | null = null
@@ -25,25 +24,21 @@ export class SessionService {
 
     if (session) {
       this.session = session
+      this.store.dispatch(AuthApiActions.loginSuccess({ session }))
     }
   }
 
-  get session(): ISession {
-    return this._session.getValue()
-  }
-
-  set session(session: ISession) {
-    this.authToken = session.jwt
-    this._session.next(session)
+  isAuthenticated(): boolean {
+    return !!this.session
   }
 
   getToken(): string {
     return this.authToken
   }
 
-  store(session: ISession): void {
+  persist(session: ISession): void {
     localStorage.setItem('session', JSON.stringify(session))
-    this.loadSession()
+    this.session = session
   }
 
   clear(): void {

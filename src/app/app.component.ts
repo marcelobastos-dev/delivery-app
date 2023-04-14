@@ -1,4 +1,5 @@
 import { Component } from '@angular/core'
+import { SessionService } from '@core/services/session/session.service'
 import { PrimeNGConfig } from 'primeng/api'
 
 @Component({
@@ -8,9 +9,10 @@ import { PrimeNGConfig } from 'primeng/api'
 })
 export class AppComponent {
   text: string = ''
-  constructor(private primengConfig: PrimeNGConfig) {}
+  constructor(private primengConfig: PrimeNGConfig, private sessionService: SessionService) {}
 
   ngOnInit() {
     this.primengConfig.ripple = true
+    this.sessionService.loadSession()
   }
 }

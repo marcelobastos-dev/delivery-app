@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { IAuth } from '@core/models/auth.interface'
-import { AuthService } from '@core/services/auth/auth.service'
 import { SessionService } from '@core/services/session/session.service'
+import { IAppState } from '@core/state/app.state'
 import { validateFormGroup } from '@core/utils/validate-form-group'
-import { MessageService } from 'primeng/api'
+import { Store } from '@ngrx/store'
 import { Subject, takeUntil } from 'rxjs'
+import { AuthPageActions } from './state/actions'
+import { getSession } from './state/auth.selectors'
 
 @Component({
   selector: 'app-auth',
@@ -20,14 +22,29 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private message: MessageService,
-    private authService: AuthService,
-    private session: SessionService,
+    private store: Store<IAppState>,
+    private sessionService: SessionService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.buildLoginForm()
+
+    if (!this.sessionService.isAuthenticated()) {
+      this.store
+        .select(getSession)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (session) => {
+            if (session) {
+              this.sessionService.persist(session)
+              this.router.navigate(['/view/dashboard'])
+            }
+          },
+        })
+    } else {
+      this.router.navigate(['/view/dashboard'])
+    }
   }
 
   buildLoginForm(): void {
@@ -45,19 +62,7 @@ export class AuthComponent implements OnInit {
 
   login(): void {
     const auth: IAuth = this.loginForm.value
-
-    this.authService
-      .login(auth)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res) => {
-          this.session.store(res)
-          this.router.navigate(['/view/dashboard'])
-        },
-        error: (err) => {
-          this.message.add({ severity: 'error', detail: 'Credenciais inválidas' })
-        },
-      })
+    this.store.dispatch(AuthPageActions.login({ auth }))
   }
 
   ngOnDestroy(): void {

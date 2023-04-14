@@ -3,8 +3,12 @@ import { ISession } from '@core/models/session.interface'
 import { AuthService } from '@core/services/auth/auth.service'
 import { SessionService } from '@core/services/session/session.service'
 import { SidenavService } from '@core/services/sidenav/sidenav.service'
+import { IAppState } from '@core/state/app.state'
+import { Store } from '@ngrx/store'
 import { MenuItem } from 'primeng/api'
-import { Subject, takeUntil } from 'rxjs'
+import { Observable, Subject, takeUntil } from 'rxjs'
+import { getSession } from '../auth/state/auth.selectors'
+import { AuthPageActions } from '../auth/state/actions'
 
 @Component({
   selector: 'app-header',
@@ -13,27 +17,32 @@ import { Subject, takeUntil } from 'rxjs'
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>()
+  session!: ISession | null
 
   items!: MenuItem[]
 
   constructor(
     private sidenavService: SidenavService,
-    private sessionService: SessionService,
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store<IAppState>
   ) {}
 
   ngOnInit(): void {
-    this.sessionService.session$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (session) => {
-        this.createAvatarMenu()
-      },
-    })
+    this.store
+      .select(getSession)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (session) => {
+          this.session = session
+          this.createAvatarMenu()
+        },
+      })
   }
 
   createAvatarMenu(): void {
     this.items = [
       {
-        label: this.sessionService.session.user.username,
+        label: this.session?.user.username,
         items: [
           {
             label: 'Meu perfil',
@@ -60,7 +69,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.authService.logout()
+    this.store.dispatch(AuthPageActions.logout())
   }
 
   ngOnDestroy(): void {
