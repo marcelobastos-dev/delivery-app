@@ -4,11 +4,11 @@ import { Router } from '@angular/router'
 import { IAuth } from '@core/models/auth.interface'
 import { SessionService } from '@core/services/session/session.service'
 import { IAppState } from '@core/state/app.state'
+import { selectCurrentSession } from '@core/state/selectors/auth.selectors'
 import { validateFormGroup } from '@core/utils/validate-form-group'
 import { Store } from '@ngrx/store'
 import { Subject, takeUntil } from 'rxjs'
-import { AuthPageActions } from './state/actions'
-import { getSession } from './state/auth.selectors'
+import { AuthPageActions } from '@core/state/actions'
 
 @Component({
   selector: 'app-auth',
@@ -32,7 +32,7 @@ export class AuthComponent implements OnInit {
 
     if (!this.sessionService.isAuthenticated()) {
       this.store
-        .select(getSession)
+        .select(selectCurrentSession)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (session) => {

@@ -1,14 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ISession } from '@core/models/session.interface'
 import { AuthService } from '@core/services/auth/auth.service'
-import { SessionService } from '@core/services/session/session.service'
 import { SidenavService } from '@core/services/sidenav/sidenav.service'
+import { AuthPageActions } from '@core/state/actions'
 import { IAppState } from '@core/state/app.state'
+import { selectCurrentSession } from '@core/state/selectors/auth.selectors'
 import { Store } from '@ngrx/store'
 import { MenuItem } from 'primeng/api'
-import { Observable, Subject, takeUntil } from 'rxjs'
-import { getSession } from '../auth/state/auth.selectors'
-import { AuthPageActions } from '../auth/state/actions'
+import { Subject, takeUntil } from 'rxjs'
 
 @Component({
   selector: 'app-header',
@@ -29,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store
-      .select(getSession)
+      .select(selectCurrentSession)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (session) => {

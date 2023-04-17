@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
-import { AuthApiActions } from '@core/components/auth/state/actions'
-import { getSession } from '@core/components/auth/state/auth.selectors'
 import { ISession } from '@core/models/session.interface'
+import { AuthApiActions } from '@core/state/actions'
 import { IAppState } from '@core/state/app.state'
 import { Store } from '@ngrx/store'
 
@@ -24,6 +23,7 @@ export class SessionService {
 
     if (session) {
       this.session = session
+      this.authToken = session.jwt
       this.store.dispatch(AuthApiActions.loginSuccess({ session }))
     }
   }

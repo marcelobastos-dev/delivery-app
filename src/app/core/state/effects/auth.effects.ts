@@ -3,7 +3,7 @@ import { AuthService } from '@core/services/auth/auth.service'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { MessageService } from 'primeng/api'
 import { catchError, exhaustMap, map, of } from 'rxjs'
-import { AuthApiActions, AuthPageActions } from './actions'
+import { AuthApiActions, AuthPageActions } from '@core/state/actions'
 
 @Injectable()
 export class AuthEffects {

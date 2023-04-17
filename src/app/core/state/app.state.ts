@@ -1,5 +1,9 @@
-import { ISessionState } from '@core/components/auth/state/auth.reducer'
+import { ISessionState } from './reducers/auth.reducer'
 
 export interface IAppState {
+  core: ICoreState
+}
+
+export interface ICoreState {
   session: ISessionState
 }

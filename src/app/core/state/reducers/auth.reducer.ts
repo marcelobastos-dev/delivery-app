@@ -1,6 +1,6 @@
 import { ISession } from '@core/models/session.interface'
 import { createReducer, on } from '@ngrx/store'
-import { AuthApiActions } from './actions'
+import { AuthApiActions } from '@core/state/actions'
 
 export interface ISessionState {
   currentSession: ISession | null
