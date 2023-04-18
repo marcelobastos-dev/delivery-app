@@ -3,12 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { IAuth } from '@core/models/auth.interface'
 import { SessionService } from '@core/services/session/session.service'
+import { SessionPageActions } from '@core/state/actions'
 import { IAppState } from '@core/state/app.state'
-import { selectCurrentSession } from '@core/state/selectors/auth.selectors'
-import { validateFormGroup } from '@core/utils/validate-form-group'
+import { selectCurrentSession } from '@core/state/selectors/session.selectors'
 import { Store } from '@ngrx/store'
+import { validateFormGroup } from '@shared/utils/validate-form-group'
 import { Subject, takeUntil } from 'rxjs'
-import { AuthPageActions } from '@core/state/actions'
 
 @Component({
   selector: 'app-auth',
@@ -62,7 +62,7 @@ export class AuthComponent implements OnInit {
 
   login(): void {
     const auth: IAuth = this.loginForm.value
-    this.store.dispatch(AuthPageActions.login({ auth }))
+    this.store.dispatch(SessionPageActions.login({ auth }))
   }
 
   ngOnDestroy(): void {

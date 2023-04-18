@@ -1,24 +1,24 @@
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-
 import { CoreModule } from '@core/core.module'
-import { AppRoutingModule } from './app-routing.module'
 
+import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 
-import { ConfirmationService, MessageService } from 'primeng/api'
+import { environment } from '@environments/environment'
 
-import { TokenInterceptor } from '@core/interceptors/token/token.interceptor'
 import { HttpErrorInterceptor } from '@core/interceptors/http-error/http-error.interceptor'
+import { TokenInterceptor } from '@core/interceptors/token/token.interceptor'
 
-import { ConfirmPopupModule } from 'primeng/confirmpopup'
-import { ToastModule } from 'primeng/toast'
+import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
-import { environment } from '../environments/environment'
-import { EffectsModule } from '@ngrx/effects'
+
+import { ConfirmationService, MessageService } from 'primeng/api'
+import { ConfirmPopupModule } from 'primeng/confirmpopup'
+import { ToastModule } from 'primeng/toast'
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,12 +27,16 @@ import { EffectsModule } from '@ngrx/effects'
     BrowserAnimationsModule,
     HttpClientModule,
     CoreModule,
+    StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({
+      name: 'Delivery App DevTools',
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
+    EffectsModule.forRoot([]),
     AppRoutingModule,
     ConfirmPopupModule,
     ToastModule,
-    StoreModule.forRoot({}, {}),
-    StoreDevtoolsModule.instrument({ name: 'Delivery App DevTools', maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([]),
   ],
   providers: [
     MessageService,

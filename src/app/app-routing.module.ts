@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'view',
-    loadChildren: () => import('./views/views.module').then((m) => m.ViewsModule),
+    loadChildren: () => import('./core/views/views.module').then((m) => m.ViewsModule),
     canActivate: [AuthGuard],
   },
 ]

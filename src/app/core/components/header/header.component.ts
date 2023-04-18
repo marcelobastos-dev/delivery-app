@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ISession } from '@core/models/session.interface'
 import { AuthService } from '@core/services/auth/auth.service'
 import { SidenavService } from '@core/services/sidenav/sidenav.service'
-import { AuthPageActions } from '@core/state/actions'
+import { SessionPageActions } from '@core/state/actions'
 import { IAppState } from '@core/state/app.state'
-import { selectCurrentSession } from '@core/state/selectors/auth.selectors'
+import { selectCurrentSession } from '@core/state/selectors/session.selectors'
 import { Store } from '@ngrx/store'
 import { MenuItem } from 'primeng/api'
 import { Subject, takeUntil } from 'rxjs'
@@ -68,7 +68,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.store.dispatch(AuthPageActions.logout())
+    this.store.dispatch(SessionPageActions.logout())
   }
 
   ngOnDestroy(): void {

@@ -1,9 +1,7 @@
-import { ISessionState } from './reducers/auth.reducer'
+import { IProductsState } from '@features/products/state/reducers/products.reducer'
+import { ISessionState } from './reducers/session.reducer'
 
 export interface IAppState {
-  core: ICoreState
-}
-
-export interface ICoreState {
   session: ISessionState
+  products: IProductsState
 }

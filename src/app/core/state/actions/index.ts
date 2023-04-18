@@ -1,4 +1,4 @@
-import * as AuthPageActions from './auth-page.actions'
-import * as AuthApiActions from './auth-api.actions'
+import * as SessionPageActions from './session-page.actions'
+import * as SessionApiActions from './session-api.actions'
 
-export { AuthPageActions, AuthApiActions }
+export { SessionPageActions, SessionApiActions }
