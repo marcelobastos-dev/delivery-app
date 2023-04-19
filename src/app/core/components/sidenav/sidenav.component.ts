@@ -38,11 +38,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
         label: 'Produtos',
         routerLink: '/view/products',
       },
-      {
-        icon: 'list_alt',
-        label: 'Pedidos',
-        routerLink: '/view/orders',
-      },
     ]
   }
 

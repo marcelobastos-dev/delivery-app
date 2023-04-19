@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { validateFormGroup } from '@core/utils/validate-form-group'
-import { IProduct } from '@modules/products/models/product.interface'
-import { ProductsService } from '@modules/products/services/products/products.service'
+import { IProduct } from '@features/products/models/product.interface'
+import { ProductsService } from '@features/products/services/products/products.service'
 import { PRODUCT_CATEGORIES } from '@shared/models/product-categories.const'
 import { Subject, takeUntil } from 'rxjs'
 

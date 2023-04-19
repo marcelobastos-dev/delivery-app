@@ -9,15 +9,11 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: () => import('@modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
+        loadChildren: () => import('@features/dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
         path: 'products',
-        loadChildren: () => import('@modules/products/products.module').then((m) => m.ProductsModule),
-      },
-      {
-        path: 'orders',
-        loadChildren: () => import('@modules/orders/orders.module').then((m) => m.OrdersModule),
+        loadChildren: () => import('@features/products/products.module').then((m) => m.ProductsModule),
       },
     ],
   },

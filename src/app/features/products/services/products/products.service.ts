@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { environment } from '@environments/environment'
-import { IProduct } from '@modules/products/models/product.interface'
+import { IProduct } from '@features/products/models/product.interface'
 import { IFindOne } from '@shared/models/find-one.interface'
 import { IFind } from '@shared/models/find.interface'
 import { Observable } from 'rxjs'
