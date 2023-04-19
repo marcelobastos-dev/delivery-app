@@ -9,7 +9,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./views/products-list/products-list.module').then((m) => m.ProductsListModule),
+        loadChildren: () =>
+          import('./views/products-search/products-search.module').then((m) => m.ProductsSearchModule),
       },
     ],
   },
