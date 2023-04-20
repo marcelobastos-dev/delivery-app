@@ -10,11 +10,11 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./modules/auth/auth.module').then((m) => m.AuthModule),
+    loadChildren: () => import('@features/auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'view',
-    loadChildren: () => import('./views/views.module').then((m) => m.ViewsModule),
+    loadChildren: () => import('@core/views/views.module').then((m) => m.ViewsModule),
     canActivate: [AuthGuard],
   },
 ]

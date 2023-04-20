@@ -13,11 +13,7 @@ import { TokenInterceptor } from '@core/interceptors/token/token.interceptor'
 import { HttpErrorInterceptor } from '@core/interceptors/http-error/http-error.interceptor'
 
 import { ConfirmPopupModule } from 'primeng/confirmpopup'
-import { ToastModule } from 'primeng/toast';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
-import { EffectsModule } from '@ngrx/effects'
+import { ToastModule } from 'primeng/toast'
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,9 +24,6 @@ import { EffectsModule } from '@ngrx/effects'
     AppRoutingModule,
     ConfirmPopupModule,
     ToastModule,
-    StoreModule.forRoot({}, {}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([]),
   ],
   providers: [
     MessageService,

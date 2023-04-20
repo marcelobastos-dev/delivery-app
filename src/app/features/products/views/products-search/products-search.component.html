@@ -1,0 +1,64 @@
+<p-card class="block mb-4">
+  <h3 class="mt-0">Produtos</h3>
+
+  <form [formGroup]="searchForm" (ngSubmit)="submitSearch()">
+    <div class="p-fluid grid formgrid mb-3">
+      <div class="field col-8">
+        <label for="fSearchText">Nome</label>
+        <input id="fSearchText" type="text" pInputText formControlName="searchText" class="w-full" />
+      </div>
+
+      <div class="field col-4">
+        <label for="fCategory">Categoria</label>
+        <p-dropdown
+          inputId="fCategory"
+          formControlName="category"
+          optionLabel="label"
+          optionValue="value"
+          [options]="categories"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+      </div>
+    </div>
+
+    <div class="flex align-items-center justify-content-end gap-2">
+      <button type="reset" pButton pRipple label="Limpar" class="p-button-sm p-button-secondary"></button>
+      <button type="submit" pButton pRipple label="Pesquisar" class="p-button-sm"></button>
+    </div>
+  </form>
+</p-card>
+
+<p-card>
+  <app-no-content *ngIf="!isLoadingProducts && !products.length; else productsTable"></app-no-content>
+
+  <ng-template #productsTable>
+    <app-products-list
+      [products]="products"
+      [productsMeta]="productsMeta"
+      [isLoadingProducts]="isLoadingProducts"
+      (pageChanged)="pageChanged($event)"
+      (editProduct)="editProduct($event)"
+      (deleteProduct)="confirmDeleteProduct($event)"
+    ></app-products-list>
+  </ng-template>
+</p-card>
+
+<p-dialog
+  header="Produto"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  [(visible)]="displayProductForm"
+  (onHide)="closeProductForm()"
+>
+  <app-product-form
+    *ngIf="displayProductForm"
+    [product]="selectedProduct"
+    (saveProduct)="saveProduct($event)"
+  ></app-product-form>
+</p-dialog>
+
+<button pButton pRipple type="button" class="p-button-rounded shadow-7 new-product-btn" (click)="initProduct()">
+  <i class="material-icons-round">add</i>
+</button>

@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common'
 import { ReactiveFormsModule } from '@angular/forms'
 import { RouterModule, Routes } from '@angular/router'
 
-import { ProductsListComponent } from './products-list.component'
+import { ProductsSearchComponent } from './products-search.component'
 import { ProductFormComponent } from './components/product-form/product-form.component'
+import { ProductsListComponent } from './components/products-list/products-list.component'
 
 import { NoContentModule } from '@shared/components/no-content/no-content.module'
 
@@ -17,10 +18,10 @@ import { DialogModule } from 'primeng/dialog'
 import { InputNumberModule } from 'primeng/inputnumber'
 import { TagModule } from 'primeng/tag'
 
-const routes: Routes = [{ path: '', component: ProductsListComponent }]
+const routes: Routes = [{ path: '', component: ProductsSearchComponent }]
 
 @NgModule({
-  declarations: [ProductsListComponent, ProductFormComponent],
+  declarations: [ProductsSearchComponent, ProductFormComponent, ProductsListComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -36,4 +37,4 @@ const routes: Routes = [{ path: '', component: ProductsListComponent }]
     TagModule,
   ],
 })
-export class ProductsListModule {}
+export class ProductsSearchModule {}

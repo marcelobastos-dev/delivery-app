@@ -4,7 +4,7 @@ import { Router } from '@angular/router'
 import { IAuth } from '@core/models/auth.interface'
 import { AuthService } from '@core/services/auth/auth.service'
 import { SessionService } from '@core/services/session/session.service'
-import { validateFormGroup } from '@core/utils/validate-form-group'
+import { isValidFormGroup } from '@core/utils/validate-form-group'
 import { MessageService } from 'primeng/api'
 import { Subject, takeUntil } from 'rxjs'
 
@@ -38,7 +38,7 @@ export class AuthComponent implements OnInit {
   }
 
   submit(): void {
-    if (validateFormGroup(this.loginForm)) {
+    if (isValidFormGroup(this.loginForm)) {
       this.login()
     }
   }

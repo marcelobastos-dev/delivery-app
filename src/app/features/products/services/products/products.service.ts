@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { environment } from '@environments/environment'
-import { IProduct } from '@modules/products/models/product.interface'
+import { IProduct } from '@features/products/models/product.interface'
+import { IProductsSearchFilters } from '@features/products/views/products-search/models/products-search-filters.interface'
 import { IFindOne } from '@shared/models/find-one.interface'
 import { IFind } from '@shared/models/find.interface'
 import { Observable } from 'rxjs'
@@ -12,10 +13,10 @@ import { Observable } from 'rxjs'
 export class ProductsService {
   constructor(private http: HttpClient) {}
 
-  find(searchText: string, category: string, page: number = 1): Observable<IFind<IProduct>> {
+  find({ searchText, category, pageIndex }: IProductsSearchFilters): Observable<IFind<IProduct>> {
     let params = new HttpParams()
     params = params.set('sort', 'name:asc')
-    params = params.set('pagination[page]', page).set('pagination[pageSize]', 4)
+    params = params.set('pagination[page]', pageIndex).set('pagination[pageSize]', 4)
 
     if (searchText) {
       params = params.set('filters[name][$contains]', searchText)
